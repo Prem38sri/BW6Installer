@@ -3,8 +3,7 @@
 		"action": {
 			"install": "Yes",
 			"config_bwagent": "Yes",
-			"validate_server": "NO",
-			"generateIQ": "YES"
+			"validate_server": "NO"
 		},
 		"property": {
 			"env": "Name Of Env/instance",
