@@ -379,64 +379,6 @@ def bw_configure():
 
 
 
-def generate_IQ():
-	hostname = os.popen("hostname").read()
-	hostname = hostname.rstrip()
-	free_mem = os.popen("free -g").read()
-	free_mem = free_mem.rstrip()
-	cpu_check = os.popen("lscpu | egrep 'Thread|Core|Socket|^CPU\('").read()
-	cpu_check = cpu_check.rstrip()
-	max_user_process = os.popen("ulimit -u").read()
-	max_user_process = max_user_process.rstrip()
-	stack_size = os.popen("ulimit -s").read()
-	stack_size = stack_size.rstrip()
-	file_limit = os.popen("ulimit -n").read()
-	file_limit = file_limit.rstrip()
-	df_apps_tibco = os.popen("df -h /apps/tibco").read()
-	df_apps_tibco = df_apps_tibco.rstrip()
-	df_logs_tiblog = os.popen("df -h /logs/tiblog").read()
-	df_logs_tiblog = df_logs_tiblog.rstrip()
-	max_user_instance = os.popen("more /proc/sys/fs/inotify/max_user_instances").read()
-	max_user_instance = max_user_instance.rstrip()
-
-	installed_software = os.popen("cat ~/.TIBCO/UniversalInstallerHistory.xml").read()
-	installed_software = installed_software.rstrip()
-	bwagent_heap_size = os.popen("grep ^java.extended.properties "+install_home+"/bw/6.4/bin/bwagent.tra").read()
-	bwagent_heap_size = bwagent_heap_size.rstrip()
-	bwappnode_heap_size = os.popen("grep ^java.extended.properties "+install_home+"/bw/6.4/bin/bwappnode.tra").read()
-	bwappnode_heap_size = bwappnode_heap_size.rstrip()
-	logback_back = os.popen("more "+install_home+"/bw/6.4/bin/bwagent-logback.xml").read()
-	logback_back = logback_back.rstrip()
-	bwagent_process = os.popen("ps -fu $LOGNAME|grep bwagent").read()
-	bwagent_process = bwagent_process.rstrip()
-	
-	input_json_file = "IQ_doc.json"
-        output_json_file = "IQ_"+hostname+"_bw6.json"
-        print output_json_file
-
-	with open(input_json_file,'r') as readfile:
-        	readfile_data = json.load(readfile)
-	
-	readfile_data['hostname'] = str(hostname)
-	readfile_data['free_mem'] = str(free_mem)
-	readfile_data['cpu_check'] = str(cpu_check)
-	readfile_data['max_user_process'] = str(max_user_process)
-	readfile_data['stack_size'] = str(stack_size)
-	readfile_data['file_limit'] = str(file_limit)
-	readfile_data['df_apps_tibco'] = str(df_apps_tibco)
-	readfile_data['df_logs_tiblog'] = str(df_logs_tiblog)
-	readfile_data['max_user_instance'] = str(max_user_instance)
-	readfile_data['installed_software'] = str(installed_software)
-	readfile_data['bwagent_heap_size'] = str(bwagent_heap_size)
-	readfile_data['bwappnode_heap_size'] = str(bwappnode_heap_size)
-	readfile_data['logback_back'] = str(logback_back)
-	readfile_data['bwagent_process'] = str(bwagent_process)
-	
-	with open(output_json_file,'w') as writefile:
-        	json.dump(readfile_data, writefile)
-	
-	os.system("curl -X POST -F \"file=@"+output_json_file+"\" http://xsnl50c644b:8090/IQMachine/EAI/bw")
-
 
 
 
@@ -485,13 +427,3 @@ try:
 except KeyError:
 	print "config property not set"
 
-
-try:
-        config_bwagent = configdata['DOMAIN']['action']['generateIQ']
-        if (config_bwagent.upper() == "YES" or config_bwagent.upper() == "Y"):
-                print "starting IQD Preperation"
-                generate_IQ()
-        else:
-                print "IQ generate not set"
-except KeyError:
-        print "Generate IQ not set"
