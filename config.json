@@ -1,0 +1,30 @@
+{
+	"DOMAIN": {
+		"action": {
+			"install": "Yes",
+			"config_bwagent": "Yes",
+			"validate_server": "NO",
+			"generateIQ": "YES"
+		},
+		"property": {
+			"env": "Name Of Env/instance",
+			"tibcouser": "{linux user for tibco}",
+			"tibcouser_home": "{tibco user home path}",
+			"install_home": "{INSTALL HOME}",
+			"product_to_install": ["BW640","BW640_HF2","EMS820"],
+			"bin_source": "{Path where binaries are kept with name as product as product.gz e.g. BW640.gz}",
+			"install_home_empty_check": "yes/No",
+			"bwagentnetworkname": "{Agent_name}",
+			"membername": "HOST",
+			"httpport": "{port}",
+			"dbconnectionurl": "jdbc:oracle:thin:@db.server.com:1526:SID",
+			"dbuser": "dbuser",
+			"dbpassword": "dbpasswordprem",
+			"emsserverurl": "tcp://abc1:8080,tcp://abc2:8080",
+			"emsusername": "emsusernameprem",
+			"emsuserpassword": "emsuserpasswordprem",
+			"registerteaagent": "yes",
+			"teaurl": "http://tea_server:8777/tea"
+		}
+	}
+}
